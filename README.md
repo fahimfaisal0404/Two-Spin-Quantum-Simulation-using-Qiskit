@@ -1,4 +1,4 @@
-# Two-Spin Quantum Simulation with Qiskit
+# Two-Spin Quantum Simulation Using Qiskit
 
 ## Overview
 
