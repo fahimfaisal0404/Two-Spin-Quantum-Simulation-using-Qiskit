@@ -1,0 +1,301 @@
+Since this is content derived from a copyrighted course, I shouldn't reproduce or closely rewrite a large portion of the lesson. However, I can help you create an **original theory section inspired by the concepts** for your GitHub project.
+
+You can add something like this to your `THEORY.md` or `README.md`:
+
+# Theory: Two-Spin Quantum Simulation Using Qiskit
+
+## Introduction
+
+One of the most important applications of quantum computing is the simulation of quantum systems. Classical computers often struggle to simulate large quantum systems because the amount of information grows exponentially with the number of particles. Quantum computers, however, naturally operate according to the laws of quantum mechanics and can therefore represent quantum systems more efficiently.
+
+This project demonstrates a simple example of quantum simulation using two qubits. The two qubits represent two interacting quantum spins. By preparing an entangled quantum state and measuring its properties, we can study the behavior of a small quantum system using Qiskit.
+
+---
+
+## Quantum Spins
+
+A spin is a fundamental quantum property of particles such as electrons. For simplicity, a spin can be viewed as a tiny magnet that can point in one of two directions:
+
+```text
+Spin Up    → |0⟩
+Spin Down  → |1⟩
+```
+
+Unlike classical objects, quantum spins can also exist in a superposition of both states simultaneously.
+
+For a single qubit:
+
+```text
+|ψ⟩ = α|0⟩ + β|1⟩
+```
+
+where:
+
+```text
+|α|² + |β|² = 1
+```
+
+The coefficients determine the probabilities of measuring the qubit in each state.
+
+---
+
+## Quantum Entanglement
+
+When two qubits become correlated in a way that cannot be explained classically, they are said to be entangled.
+
+In this project, we prepare the Bell state:
+
+```text
+|Ψ⁻⟩ = (|01⟩ − |10⟩)/√2
+```
+
+This state has an important property:
+
+* If the first qubit is measured as 0, the second will be 1.
+* If the first qubit is measured as 1, the second will be 0.
+
+The measurement outcomes are perfectly correlated even though neither qubit has a definite value before measurement.
+
+---
+
+## Creating the Bell State
+
+The circuit begins with two qubits initialized in:
+
+```text
+|00⟩
+```
+
+### Step 1: Hadamard Gate
+
+Applying a Hadamard gate to the first qubit creates a superposition:
+
+```text
+|00⟩
+→
+(|00⟩ + |10⟩)/√2
+```
+
+### Step 2: CNOT Gate
+
+The CNOT gate entangles the two qubits:
+
+```text
+(|00⟩ + |10⟩)/√2
+→
+(|00⟩ + |11⟩)/√2
+```
+
+This state is the Bell state:
+
+```text
+|Φ⁺⟩ = (|00⟩ + |11⟩)/√2
+```
+
+### Step 3: Additional Gates
+
+Applying an X gate to the second qubit and a Z gate to the first qubit transforms the state into:
+
+```text
+|Ψ⁻⟩ = (|01⟩ − |10⟩)/√2
+```
+
+which is the state used throughout this project.
+
+---
+
+## Measuring the Quantum State
+
+After preparing the Bell state, measurements are performed on both qubits.
+
+The theoretically expected outcomes are:
+
+```text
+01 ≈ 50%
+10 ≈ 50%
+```
+
+The outcomes:
+
+```text
+00
+11
+```
+
+should ideally never appear.
+
+Because real quantum computers are affected by noise and hardware imperfections, small deviations from the theoretical distribution may occur.
+
+---
+
+## The Two-Spin Hamiltonian
+
+To study the energy of the system, we define a Hamiltonian.
+
+A Hamiltonian is a mathematical operator that describes the total energy of a quantum system.
+
+For this project:
+
+```text
+H = J(ZZ) + hx(XI + IX)
+```
+
+where:
+
+```text
+J  = interaction strength between spins
+hx = external transverse magnetic field
+```
+
+### Meaning of Each Term
+
+#### Interaction Term
+
+```text
+J(ZZ)
+```
+
+describes how the two spins interact with each other.
+
+Depending on the value of J, the spins may prefer to align or anti-align.
+
+#### Magnetic Field Term
+
+```text
+hx(XI + IX)
+```
+
+represents the effect of an external magnetic field acting on both spins.
+
+This field tends to flip the spins and create quantum superpositions.
+
+---
+
+## Measuring Energy with Estimator
+
+In Qiskit, two different primitives are used in this project.
+
+### Sampler
+
+The Sampler primitive answers the question:
+
+> What measurement outcomes occur and how often?
+
+Output example:
+
+```text
+01 : 50
+10 : 49
+11 : 1
+```
+
+The result is a probability distribution of measurement outcomes.
+
+---
+
+### Estimator
+
+The Estimator primitive answers a different question:
+
+> What is the expectation value of an observable?
+
+Instead of producing measurement counts, it calculates a physical quantity such as energy.
+
+For this project, Estimator evaluates:
+
+```text
+⟨Ψ⁻|H|Ψ⁻⟩
+```
+
+which represents the energy of the Bell state under the chosen Hamiltonian.
+
+---
+
+## Circuit Optimization (Transpilation)
+
+Before execution, the quantum circuit must be translated into instructions supported by the target quantum processor.
+
+This process is called transpilation.
+
+During transpilation:
+
+* Logical qubits are mapped to physical qubits.
+* Unsupported gates are replaced by hardware-native gates.
+* Circuit depth may be reduced.
+* Execution efficiency is improved.
+
+Qiskit performs these tasks automatically using a preset pass manager.
+
+---
+
+## Real Hardware vs Simulator
+
+This project runs on both:
+
+### IBM Quantum Hardware
+
+Advantages:
+
+* Uses a real quantum processor.
+* Demonstrates practical quantum computation.
+
+Disadvantages:
+
+* Queue waiting times.
+* Noise and hardware errors.
+
+---
+
+### Aer Simulator
+
+Advantages:
+
+* Fast execution.
+* No waiting time.
+* Ideal theoretical results.
+
+Disadvantages:
+
+* Does not represent real hardware imperfections unless a noise model is added.
+
+---
+
+## Results
+
+The Bell state measurements should show that the two qubits are anti-correlated:
+
+```text
+01 ≈ 50%
+10 ≈ 50%
+```
+
+The energy calculated using Estimator should be close to:
+
+```text
+-1
+```
+
+for the chosen Hamiltonian parameters.
+
+Small differences may occur on real hardware due to noise and gate imperfections.
+
+---
+
+## Conclusion
+
+This project demonstrates several fundamental concepts in quantum computing:
+
+* Qubits
+* Superposition
+* Quantum Gates
+* Entanglement
+* Bell States
+* Quantum Measurement
+* Hamiltonians
+* Quantum Simulation
+* Sampler Primitive
+* Estimator Primitive
+* IBM Quantum Hardware
+* Aer Simulation
+
+Although the system contains only two qubits, the same principles can be extended to larger quantum systems. Quantum simulation is expected to be one of the most impactful applications of quantum computers because it enables the study of physical systems that are difficult or impossible to model efficiently on classical computers.
