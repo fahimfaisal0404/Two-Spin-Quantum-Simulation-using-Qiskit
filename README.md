@@ -172,7 +172,7 @@ Used to compare theoretical and experimental results.
 
 
 ### Energy Estimation
-Real Hardware Energy : -0.9934
+Real Hardware Energy : -0.97
 
 Simulator Energy    : -1.0000
 
