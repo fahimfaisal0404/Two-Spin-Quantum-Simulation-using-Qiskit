@@ -139,7 +139,7 @@ Used to compare theoretical and experimental results.
 
 ## Technologies Used
 
-* Python 3.10+
+* Python 3.14.6
 * Qiskit
 * Qiskit Aer
 * Qiskit IBM Runtime
